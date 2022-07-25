@@ -1,48 +1,39 @@
 import React from "react";
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 import { useState } from "react";
 
-//create your first component
 const Home = () => {
 
-
-	const [tareas, addTarea] = useState([]);
+	const [tareas, setTareas] = useState([]);
 	const [nuevaTarea, setNuevaTarea] = useState("");
 
 	return (
-		<div className="text-center">
+		<div className="container">
 			<h1>To do list</h1>
 			<input value={nuevaTarea} onChange={e => setNuevaTarea(e.target.value)} type="text" placeholder="Tareas nueva?" />
-			<button onClick={() => SumarNuevaTarea()}>Adicionar</button>
-			<ul>
-				{tareas.map((valor, indice) =>
-					<li key={indice}>
-						{valor}
-						<button onClick={() => borrarTarea(indice)}>Borrar</button>
+			<button onClick={() => AdicionarTarea()}>Adicionar</button>
+			<ul className="ulclass">
+				{tareas.map((elemento, indice) =>
+					<li className="liclass" key={indice}>
+						{elemento}
+						<span className="spanclass"><i onClick={() => borrarTarea(indice)}className="fa-solid fa-xmark"></i></span>
 					</li>)}
 			</ul>
+			<span className="spanfinal"> Tareas restantes: {tareas.length}</span>
 		</div>
 	);
 
-	function SumarNuevaTarea() {
-		addTarea([...tareas, nuevaTarea]);
+	// FUNCION UTILIZADA POR BOTON PARA INCOPORAR TAREA A ARRAY TAREAS
+	function AdicionarTarea() {
+		setTareas([...tareas, nuevaTarea]);
 		setNuevaTarea("");
 	}
 
 	function borrarTarea(indice) {
-		let arraytemporal = [...tareas];
-		arraytemporal.splice(indice, 1);
-		addTarea(arraytemporal);
+		let arraytemporal = [...tareas]; // ... SIGNIFICA TODO LO QUE CONTIENE "TAREAS"
+		arraytemporal.splice(indice, 1); //BORRA "1" ELEMENTO DE LA POSICION "INDICE" DEL ARRAY
+		setTareas(arraytemporal); //
 	}
 
 };
 
 export default Home;
-
-/* {<div className="text-center">
-			<h1>To do list</h1>
-			<input value={nuevaTarea} onChange={e=>setNuevaTarea(e.target.value)} type="text" placeholder="Tareas nueva?" />
-			{tareas.map((valor, indice, arr) => { return <li key={indice}>{valor}
-			<button className="BotonEliminar">x</button></li> })}
-		</div>} */
